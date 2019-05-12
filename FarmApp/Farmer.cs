@@ -10,9 +10,24 @@ namespace FarmApp
     {
         public string Name { get; set; }
         public int Age { get; set; }
-        public decimal Cash { get; set; } = 10000;
         public FoodStack Food => FoodStack.HumansFood;
-
+        private decimal _cash = 10000;
+        public decimal Cash
+        {
+            get => _cash;
+            set
+            {
+                if (value < 0)
+                {
+                    _cash = 0;
+                    throw new Exception("No money, bro!");
+                }
+                else
+                {
+                    _cash = value;
+                }
+            }
+        }
 
         public Farmer(string name, int age)
         {
@@ -28,7 +43,7 @@ namespace FarmApp
             }
         }
 
-        public AnimalProduct GetProduct(ref IEnumerable<AnimalProduct> products, AnimalProductsEnum productNeed, ref decimal cash)
+        public AnimalProduct GetProduct(IEnumerable<AnimalProduct> products, AnimalProductsEnum productNeed, ref decimal cash)
         {
             AnimalProduct prod = null;
             switch (productNeed)
@@ -81,11 +96,14 @@ namespace FarmApp
             return prod;
         }
 
+
         public void ToFeed(IEnumerable<Animal> animals, Supplier supplier)
         {
             foreach (var a in animals)
             {
-                var food = supplier.GetFood(a.Food);
+                var tmp = Cash;
+                var food = supplier.GetFood(a.Food, ref tmp);
+                Cash = tmp;
                 a.Eat(food);
             }
         }

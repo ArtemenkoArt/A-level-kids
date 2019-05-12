@@ -21,5 +21,14 @@ namespace FarmApp
             Products = new List<AnimalProduct>();
         }
 
+        public AnimalProduct SellSomeProduct(AnimalProductsEnum product, ref decimal cash) => Farmer.GetProduct(Products, product, ref cash);
+
+        public void ToScareAnimals() => Farmer.ToScare(Animals);
+
+        public void ToFeedAnimals(Supplier supplier) => Farmer.ToFeed(Animals, supplier);
+
+        public void ToFitFarmer() => Farmer.Sleep();
+
+        public void ChillTimeForFarmer() => Farmer.Relax();
     }
 }

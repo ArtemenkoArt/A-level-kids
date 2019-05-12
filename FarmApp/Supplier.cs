@@ -13,7 +13,23 @@ namespace FarmApp
         public List<Farm> FarmsPartner { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
-        public decimal Cash { get; set; } = 5000;
+        private decimal _cash = 5000;
+        public decimal Cash
+        {
+            get => _cash;
+            set
+            {
+                if (value < 0)
+                {
+                    _cash = 0;
+                    throw new Exception("No money, bro!");
+                }
+                else
+                {
+                    _cash = value;
+                }
+            }
+        }
 
         public Supplier(string name, int age, Farm farm)
         {
@@ -34,6 +50,9 @@ namespace FarmApp
         {
             Console.WriteLine($"{Name} ate {food.Name}");
         }
+
+        public void GetSomeProduct(AnimalProductsEnum product, Farm farm) => farm.
+        
 
         public Food GetFood(FoodStack food, ref decimal cash)
         {
