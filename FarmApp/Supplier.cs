@@ -6,30 +6,59 @@ using System.Threading.Tasks;
 
 namespace FarmApp
 {
-    class Supplier:IHuman
+    public class Supplier : IHuman
     {
         public FoodStack Food => FoodStack.HumansFood;
-
+        public List<AnimalProduct> ProductChest { get; set; }
+        public List<Farm> FarmsPartner { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
+        public decimal Cash { get; set; } = 5000;
+
+        public Supplier(string name, int age, Farm farm)
+        {
+            Name = name;
+            Age = age;
+            FarmsPartner = new List<Farm>();
+            FarmsPartner.Add(farm);
+            ProductChest = new List<AnimalProduct>();
+        }
+
+        public void AddFarmContact(Farm farm) => FarmsPartner.Add(farm);
+
+        public void DeleteFarmContact(Farm farm) => FarmsPartner.Remove(farm);
+
+        public void BuySomeAnimalProduct(AnimalProductsEnum products) => ProductChest.Add(null);
 
         public void Eat(Food food)
         {
             Console.WriteLine($"{Name} ate {food.Name}");
         }
 
-        public Food GetFood(FoodStack food)
+        public Food GetFood(FoodStack food, ref decimal cash)
         {
             switch (food)
             {
                 case FoodStack.HensFood:
+                    Cash += HensFood.Price;
+                    cash -= HensFood.Price;
                     return new HensFood();
+
                 case FoodStack.CowsFood:
+                    Cash += CowsFood.Price;
+                    cash -= CowsFood.Price;
                     return new CowsFood();
+
                 case FoodStack.SheepsFood:
+                    Cash += SheepsFood.Price;
+                    cash -= SheepsFood.Price;
                     return new SheepsFood();
+
                 case FoodStack.HumansFood:
+                    Cash += HumansFood.Price;
+                    cash -= HumansFood.Price;
                     return new HumansFood();
+
                 default:
                     return null;
             }

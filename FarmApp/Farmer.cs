@@ -10,10 +10,15 @@ namespace FarmApp
     {
         public string Name { get; set; }
         public int Age { get; set; }
+        public decimal Cash { get; set; } = 10000;
         public FoodStack Food => FoodStack.HumansFood;
 
 
-        private readonly Supplier supplier= new Supplier();
+        public Farmer(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
 
         public void ToScare(IEnumerable<Animal> animals)
         {
@@ -23,7 +28,60 @@ namespace FarmApp
             }
         }
 
-        public void ToFeed(IEnumerable<Animal> animals)
+        public AnimalProduct GetProduct(ref IEnumerable<AnimalProduct> products, AnimalProductsEnum productNeed, ref decimal cash)
+        {
+            AnimalProduct prod = null;
+            switch (productNeed)
+            {
+
+                case AnimalProductsEnum.Eggs:
+                    foreach (var p in products)  // оптимизировать эти форичи???
+                    {
+                        if ((p as HensProductEggs) != null)
+                        {
+                            prod = p;
+                            break;
+                        }
+                    }
+                    break;
+
+                case AnimalProductsEnum.Milk:
+                    foreach (var p in products) // оптимизировать эти форичи???
+                    {
+                        if ((p as CowsProductMilk) != null)
+                        {
+                            prod = p;
+                            break;
+                        }
+                    }
+                    break;
+
+                case AnimalProductsEnum.Wool:
+                    foreach (var p in products)  // оптимизировать эти форичи???
+                    {
+                        if ((p as SheepsProductWool) != null)
+                        {
+                            prod = p;
+                            break;
+                        }
+                    }
+                    break;
+
+                default:
+                    throw new Exception("This product does not exist!");
+            }
+
+            if (prod != null)
+            {
+                products.ToList().Remove(prod);
+                Cash += prod.UnitPrice;
+                cash -= prod.UnitPrice;
+            }
+
+            return prod;
+        }
+
+        public void ToFeed(IEnumerable<Animal> animals, Supplier supplier)
         {
             foreach (var a in animals)
             {

@@ -10,6 +10,7 @@ namespace FarmApp
     {
         string Name { get; set; }
         int Age { get; set; }
+        decimal Cash { get; set; }
         FoodStack Food { get; }
         void Sleep();
         void Eat(Food food);

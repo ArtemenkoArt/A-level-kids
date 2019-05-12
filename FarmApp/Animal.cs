@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace FarmApp
 {
-    public  abstract class Animal
+    public abstract class Animal
     {
-        public  string Name { get; set; }
-        public  DateTime DateofBirthday { get; set; }
+        public string Name { get; set; }
+        public DateTime DateofBirthday { get; set; }
         public abstract FoodStack Food { get; }
 
         public abstract void MakeSomeNoise();
         public abstract void Eat(Food food);
+        public abstract AnimalProduct GetThisAnimalProduct();
     }
 
     public class Cow : Animal
     {
         public override FoodStack Food => FoodStack.CowsFood;
 
-        public override  void Eat(Food food)
+        public override void Eat(Food food)
         {
             Console.WriteLine($"Cow ate {food.Name}");
         }
@@ -30,9 +31,9 @@ namespace FarmApp
             Console.WriteLine("Mooo");
         }
 
-        public string GetMilk()
+        public override AnimalProduct GetThisAnimalProduct()
         {
-            return "Milk!";
+            return new CowsProductMilk(10.0m);
         }
     }
 
@@ -50,9 +51,9 @@ namespace FarmApp
             Console.WriteLine("Cock-A-Doodle-Doo!");
         }
 
-        public string GetEggs()
+        public override AnimalProduct GetThisAnimalProduct()
         {
-            return "Eggs!";
+            return new HensProductEggs(5.5m);
         }
     }
 
@@ -60,7 +61,7 @@ namespace FarmApp
     {
         public override FoodStack Food => FoodStack.SheepsFood;
 
-        public override  void Eat(Food food)
+        public override void Eat(Food food)
         {
             Console.WriteLine($"Sheep ate {food.Name}");
         }
@@ -70,9 +71,9 @@ namespace FarmApp
             Console.WriteLine("Mooo");
         }
 
-        public string GetWool()
+        public override AnimalProduct GetThisAnimalProduct()
         {
-            return "Wool!";
+            return new SheepsProductWool(3.45m);
         }
     }
 }
