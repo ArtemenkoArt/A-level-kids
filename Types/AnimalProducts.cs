@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace _002_HomeWork_20190508
 {
-    class AnimalsProducts
+    class AnimalsProduct
     {
         public readonly string name;
         private int Prise { get; }
         public int GetPrice() => Prise;
-        public AnimalsProducts(int price, string name) { Prise = price; this.name = name; }
+        public AnimalsProduct(int price, string name) { Prise = price; this.name = name; }
     }
 
-    class Milk : AnimalsProducts
+    class Milk : AnimalsProduct
     {
         public Milk(int price, string name) : base(price, name) { }
     }
 
-    class Wool : AnimalsProducts
+    class Wool : AnimalsProduct
     {
         public Wool(int price, string name) : base(price, name) { }
     }
 
-    class Eggs : AnimalsProducts
+    class Eggs : AnimalsProduct
     {
         public Eggs(int price, string name) : base(price, name) { }
     }
